@@ -1,3 +1,3 @@
 # C-Utils
 
-POSIX compliant C utilities. Should save a lot of time writing low-level routines.
+POSIX compliant C utilities. Should save a lot of time when needing to write low-level routines.
