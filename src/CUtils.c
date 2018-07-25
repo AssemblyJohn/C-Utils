@@ -4,9 +4,15 @@
 
 #include <stdint.h>
 
+#include <signal.h>
+#include <fcntl.h>
+
 #include "BufferedReader.h"
 #include "BufferedWritter.h"
 #include "Array.h"
+#include "String.h"
+
+#include "Config.h"
 
 // typedef int (*__compar_fn_t) (const void *, const void *);
 
@@ -85,8 +91,9 @@ void OnConsume(uint8_t *Buff, ssize_t BuffSize, void *UserData)
     Arr->Ft->AppendRaw(Arr, Buff, BuffSize);
 }
 
-int main(void)
+void TestConsume()
 {
+
     // Test out read/write
     char template[] = "/tmp/file_XXXXXX";
     int TempFd = mkstemp(template);
@@ -110,6 +117,11 @@ int main(void)
 
     DeleteArrayStatic(&BufferArray);
     DeleteBufferedReaderStatic(&BuffReader);
+}
+
+int main(void)
+{
+
 
     printf("End...\n");
 

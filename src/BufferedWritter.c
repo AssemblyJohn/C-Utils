@@ -117,7 +117,7 @@ static int BufferedWritter_WriteInt32(BufferedWritter *Self, int32_t WriteValue)
     return -1;
 }
 
-int BufferedWritter_WriteStringRaw(BufferedWritter *Self, uint8_t *String)
+int BufferedWritter_WriteStringRaw(BufferedWritter *Self, int8_t *String)
 {
     ssize_t Length = strlen(String);
 

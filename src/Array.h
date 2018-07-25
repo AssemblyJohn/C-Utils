@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <limits.h>
 
-#include "CUtils.h"
+#include "Config.h"
 
 typedef void (* Array_OnVisit_Callback)(void *, int32_t);
 
@@ -60,7 +60,7 @@ typedef struct Array_ClassFunctions
     /**
      * @return  The count of unused array bytes
      */
-    uint32_t (* const GetSlackBytes);
+    uint32_t (* const GetSlackBytes)(Array *Self);
 
     /**
      * @return  True if the index is valid and usable, and false otherwise.

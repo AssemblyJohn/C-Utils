@@ -63,7 +63,7 @@ typedef struct BufferedReader_ClassFunctions
      * @param StackBuff Stack allocated buffer. Be sure that you know what you've written. If the string size > size of the StackBuff
      *                  it will not do anything & it will return. Be very sure when using this
      */
-    int (* const ReadStringRawStatic)(BufferedReader *Self, uint8_t *StackBuff, uint32_t StackBuffSize);
+    int (* const ReadStringRawStatic)(BufferedReader *Self, int8_t *StackBuff, uint32_t StackBuffSize);
 
     /**
      * Reads a string that was written with a 'BufferedWritter' of the form uint32_t (strlen) + the string. The
@@ -71,7 +71,7 @@ typedef struct BufferedReader_ClassFunctions
      *
      * @return  The heap allocated string pointer or null if there was an error during read
      */
-    uint8_t * (* const ReadStringRawDynamic)(BufferedReader *Self);
+    int8_t * (* const ReadStringRawDynamic)(BufferedReader *Self);
 
     /**
      * Offsets the read, from the beginning of the descriptor.

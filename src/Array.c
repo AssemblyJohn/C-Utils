@@ -3,6 +3,7 @@
 const float ARRAY_PRECENT_GROW = .3f;
 
 // INTERNAL FUNCTIONS
+static void Array_EnsureCapacity(Array *Self, uint32_t ExtraElementCount);
 
 static void Array_Ctor(Array *Self, uint32_t SizeofElement)
 {
@@ -16,9 +17,8 @@ static void Array_Ctor(Array *Self, uint32_t SizeofElement)
 
 static void Array_Ctor_1(Array *Self, uint32_t SizeofElement, uint32_t Reserved)
 {
-    Self->Private.SizeofElement = SizeofElement;
-
-    // TODO:
+    Array_Ctor(Self, SizeofElement);
+    Array_EnsureCapacity(Self, Reserved);
 }
 
 static void Array_Dtor(Array *Self)
@@ -26,7 +26,7 @@ static void Array_Dtor(Array *Self)
     // Clean up
     if(Self->Private.Buffer != NULL)
     {
-        free(Self->Private.Buffer);
+        CU_Free(Self->Private.Buffer);
         Self->Private.Buffer = NULL;
 
         Self->Private.BufferSize = 0;
@@ -75,7 +75,7 @@ static void Array_EnsureCapacity(Array *Self, uint32_t ExtraElementCount)
             NewSize = Self->Private.SizeofElement * ExtraElementCount;
 
         // Realloc the internal buffer
-        Self->Private.Buffer = realloc(Self->Private.Buffer, NewSize);
+        Self->Private.Buffer = CU_Realloc(Self->Private.Buffer, NewSize);
         Self->Private.BufferSize = NewSize;
     }
 }
@@ -97,7 +97,7 @@ static void Array_Add(Array *Self, void *Element)
     Array_EnsureCapacity(Self, 1);
 
     // Copy the data in the array & increase the buffer index
-    memcpy(Self->Private.Buffer + Self->Private.BufferIndex, Element, Self->Private.SizeofElement);
+    CU_Memcpy(Self->Private.Buffer + Self->Private.BufferIndex, Element, Self->Private.SizeofElement);
     Self->Private.BufferIndex += Self->Private.SizeofElement;
 }
 
@@ -112,7 +112,7 @@ static void Array_Remove(Array *Self, int32_t Index)
             uint32_t RealIndex = Index * Self->Private.SizeofElement;
             uint32_t RealIndexLast = Array_LastIndex(Self) * Self->Private.SizeofElement;
 
-            memcpy(Self->Private.Buffer + RealIndex, Self->Private.Buffer, Self->Private.SizeofElement);
+            CU_Memcpy(Self->Private.Buffer + RealIndex, Self->Private.Buffer + RealIndexLast, Self->Private.SizeofElement);
 
             // Decrement the buffer index
             Self->Private.BufferIndex -= Self->Private.SizeofElement;
@@ -133,7 +133,7 @@ static void Array_Append(Array *Self, void *Other, uint32_t Count)
     uint32_t CopySize = Count * Self->Private.SizeofElement;
 
     // Copy the data in the array & increase the buffer index
-    memcpy(Self->Private.Buffer + Self->Private.BufferIndex, Other, CopySize);
+    CU_Memcpy(Self->Private.Buffer + Self->Private.BufferIndex, Other, CopySize);
     Self->Private.BufferIndex += CopySize;
 }
 
@@ -203,7 +203,7 @@ void DeleteArrayStatic(Array *Array)
 // Malloc created reader
 Array *NewArray(uint32_t SizeofElement)
 {
-    Array *Array = malloc(sizeof(Array));
+    Array *Array = CU_Malloc(sizeof(Array));
     NewArrayStatic(Array, SizeofElement);
 
     return Array;
@@ -212,5 +212,5 @@ Array *NewArray(uint32_t SizeofElement)
 void DeleteArray(Array *Array)
 {
     DeleteArrayStatic(Array);
-    free(Array);
+    CU_Free(Array);
 }

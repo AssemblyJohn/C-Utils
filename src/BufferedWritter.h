@@ -56,7 +56,7 @@ typedef struct BufferedWritter_ClassFunctions
      */
     int (* const WriteInt32)(BufferedWritter *Self, int32_t WriteValue);
 
-    int (* const WriteStringRaw)(BufferedWritter *Self, uint8_t *String);
+    int (* const WriteStringRaw)(BufferedWritter *Self, int8_t *String);
 
     /**
      * Flush all virtual writes to the descriptor.

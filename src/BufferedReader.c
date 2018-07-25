@@ -107,7 +107,7 @@ static int BufferedReader_ReadInt32(BufferedReader *Self, int32_t *ReadValue)
     return -1;
 }
 
-int BufferedReader_ReadStringRawStatic(BufferedReader *Self, uint8_t *StackBuff, uint32_t StackBuffSize)
+int BufferedReader_ReadStringRawStatic(BufferedReader *Self, int8_t *StackBuff, uint32_t StackBuffSize)
 {
     uint32_t StringSize;
 
