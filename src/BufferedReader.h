@@ -119,6 +119,7 @@ typedef struct BufferedReader
 
 // Statically (stack) fct defined reader
 void NewBufferedReaderStatic(BufferedReader *Reader);
+void NewBufferedReaderStatic_1(BufferedReader *Reader, uint32_t BufferSize);
 void DeleteBufferedReaderStatic(BufferedReader *Reader);
 
 // Malloc created reader

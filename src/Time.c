@@ -25,18 +25,3 @@ uint64_t ElapsedTimer(Timer *Timer)
     return (TimerToMicro(Timer) - MicroTime);
 }
 
-uint64_t TimerToMicro(Timer *Tm)
-{
-    return (Tm->InternalTime.tv_sec * 1000000) + (Tm->InternalTime.tv_nsec / 1000);
-}
-
-double MicroToSecond(uint64_t Micro)
-{
-    return (Micro / 1000000.0);
-}
-
-double MicroToMilli(uint64_t Micro)
-{
-    return (Micro / 1000.0);
-}
-

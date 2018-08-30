@@ -119,10 +119,9 @@ void TestConsume()
     DeleteBufferedReaderStatic(&BuffReader);
 }
 
+
 int main(void)
 {
-
-
     printf("End...\n");
 
     return EXIT_SUCCESS;

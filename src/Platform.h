@@ -33,4 +33,8 @@
 
 #endif
 
+#ifndef RESTRICT
+	#define RESTRICT __restrict
+#endif
+
 #endif /* __CU_PLATFORM_H_ */

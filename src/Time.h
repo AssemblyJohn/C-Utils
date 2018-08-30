@@ -39,16 +39,24 @@ uint64_t ElapsedTimer(Timer *);
 /**
  * Converts the internal structure of a 'Timer' to microsecond time
  */
-INLINE extern uint64_t TimerToMicro(Timer *Timer) FORCEINLINE;
+INLINE FORCEINLINE uint64_t TimerToMicro(Timer *Tm)
+{
+    return (Tm->InternalTime.tv_sec * 1000000) + (Tm->InternalTime.tv_nsec / 1000);
+}
 
 /**
  * Transforms microseconds to seconds
  */
-INLINE extern double MicroToSecond(uint64_t Micro) FORCEINLINE;
-
+INLINE FORCEINLINE double MicroToSecond(uint64_t Micro)
+{
+    return (Micro / 1000000.0);
+}
 /**
  * Transforms a microseconds to milliseconds
  */
-INLINE extern double MicroToMilli(uint64_t Micro) FORCEINLINE;
+INLINE FORCEINLINE double MicroToMilli(uint64_t Micro)
+{
+    return (Micro / 1000.0);
+}
 
 #endif /* __CU_TIME_H_ */

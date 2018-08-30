@@ -32,10 +32,25 @@
 
 
 // For use on systems that do not have the malloc/realloc like bootloaders, and where we need to quickly define other fcts
-INLINE extern void *CU_Malloc(size_t size) FORCEINLINE;
-INLINE extern void *CU_Realloc(void *ptr, size_t size) FORCEINLINE;
-INLINE extern void CU_Free (void *) FORCEINLINE;
+INLINE FORCEINLINE void *CU_Malloc(size_t size)
+{
+    return malloc(size);
+}
 
-INLINE extern void *CU_Memcpy(void *__restrict dest, const void *__restrict src, size_t n) FORCEINLINE;
+
+INLINE FORCEINLINE void *CU_Realloc(void *ptr, size_t size)
+{
+    return realloc(ptr, size);
+}
+
+INLINE FORCEINLINE void CU_Free (void *ptr)
+{
+	free(ptr);
+}
+
+INLINE FORCEINLINE void *CU_Memcpy(void *RESTRICT dest, const void *RESTRICT src, size_t n)
+{
+    return memcpy(dest, src, n);
+}
 
 #endif /* __CU_CONFIG_H_ */

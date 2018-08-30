@@ -58,6 +58,10 @@ static void BufferedReader_SetDescriptor(BufferedReader *Self, int Descriptor, b
 
 static ssize_t BufferedReader_Read(BufferedReader *Self, uint32_t Bytes)
 {
+#ifdef __CU_UTILS_DEBUG
+	assert(Bytes <= Self->Private.BufferSize);
+#endif
+
     ssize_t Read = read(Self->Private.Descriptor, Self->Private.Buffer, Bytes);
     Self->Private.CurrentOffset += Read;
 
@@ -124,14 +128,14 @@ int BufferedReader_ReadStringRawStatic(BufferedReader *Self, int8_t *StackBuff, 
     return -1;
 }
 
-uint8_t * BufferedReader_ReadStringRawDynamic(BufferedReader *Self)
+int8_t * BufferedReader_ReadStringRawDynamic(BufferedReader *Self)
 {
     uint32_t StringSize;
 
     // The string size excludes the endline character since we don't need it
     if(BufferedReader_ReadUint32(Self, &StringSize) == 0)
     {
-        uint8_t *String = malloc(StringSize + 1);
+        int8_t *String = malloc(StringSize + 1);
         String[StringSize] = '\0'; // Set the endline
 
         BufferedReader_ReadRaw(Self, String, StringSize);
@@ -224,6 +228,12 @@ void NewBufferedReaderStatic(BufferedReader *Reader)
 {
     BufferedReader_Init_INTERNAL(Reader);
     BufferedReader_Ctor(Reader);
+}
+
+void NewBufferedReaderStatic_1(BufferedReader *Reader, uint32_t BufferSize)
+{
+    BufferedReader_Init_INTERNAL(Reader);
+    BufferedReader_Ctor_1(Reader, BufferSize);
 }
 
 void DeleteBufferedReaderStatic(BufferedReader *Reader)
